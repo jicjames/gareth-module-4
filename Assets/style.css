@@ -50,3 +50,15 @@
   background-image: linear-gradient(to right, #f5ce62, #e43603, #fa7199, #e85a19);
   box-shadow: 0 4px 15px 0 rgba(229, 66, 10, 0.75);
 }
+
+.timer {
+  float: right;
+  color: white;
+  background-color: #fa7199;
+  border-radius: 20px;
+  padding-left: 2%;
+  padding-right: 2%;
+  padding-top: 1%;
+  padding-bottom: 1%;
+  /* visibility: hidden; */
+}
