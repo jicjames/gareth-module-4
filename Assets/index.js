@@ -30,16 +30,11 @@ var questionBank = [
     choices: ["Javascript", "terminal / bash", "for loops", "console log"],
     answer: "console log",
   },
-  {
-    question: "How amazing is my instructor, Ali? ",
-    choices: ["Amazing", "10/10", "Please let me pass...", "All of the above!"],
-    answer: "All of the above!",
-  },
 ];
 var questionBankIndex = 0;
 var score = 0;
 var questionIndex = 0;
-var secondsLeft = 76;
+var secondsLeft = 2;
 var quizTimer = 0;
 var penalty = 10;
 var ulEl = document.createElement("ul");
@@ -53,32 +48,64 @@ startEL.addEventListener("click", function () {
 
       if (secondsLeft === 0) {
         clearInterval(quizTimer);
-        //placeholder for
+        complete();
         timerEL.textContent = "Time's up!";
       }
     }, 1000);
   }
   //   document.getElementsByClassName("timer").style.visibility = visible;
-  printQuiz();
+  renderQuiz();
 });
 
-// Function to begin the quiz
-function printQuiz(questionBankIndex) {
+// Function to begin the quiz and renders the questions and answers
+function renderQuiz(questionBankIndex) {
   //Clear text for questions and choices
   questionsEl.innerHTML = "";
   ulEl.innerHTML = "";
 
-  // For Loop to add questions
   for (var i = 0; i < questionBank.length; i++) {
-    var userQuestion = questionBank[questionBankIndex].question;
-    var userChoices = questionBank[i].choices;
-    questionsEl.textContent = userQuestion;
+    var renderQuestion = questionBank[i].question;
+    var renderChoices = questionBank[i].choices;
+    questionsEl.innerHTML = renderQuestion;
   }
 
-  for (var i = 0; i < choices.length; i++) {
-    var listEL = document.createElement("li");
-    questionsDiv.appendChild(ulCreate);
-    ulCreate.appendChild(listItem);
-    listEL.textContent = userChoices;
+  renderChoices.forEach(function (newChoice) {
+    var liEL = document.createElement("li");
+    liEL.textContent = newChoice;
+    questionsEl.appendChild(ulEl);
+    ulEl.appendChild(liEL);
+    liEL.addEventListener("click", validateAnswer);
+  });
+}
+
+//Function to validate the answers
+function validateAnswer(event) {
+  var element = event.target;
+
+  if (element.matches("li")) {
+    var resultEl = document.createElement("div");
+    resultEl.setAttribute("class", "answerResult");
+
+    if (element.textContent == questionBank[questionBankIndex].answer) {
+      score++;
+      resultEl.textContent = "Correct!";
+    } else {
+      secondsLeft = secondsLeft - penalty;
+      resultEl.textContent = "Wrong! The correct answer is:  " + questionBank[questionBankIndex].answer;
+    }
+  }
+}
+
+//Triggers when the quiz is complete or when the timer hits zero.
+function complete() {
+  questionsEl.innerHTML = "";
+  timerEL.innerHTML = "";
+
+  if (secondsLeft >= 0) {
+    var pEl = document.createElement("p");
+    clearInterval(quizTimer);
+    pEl.textContent = "Your final score is: " + score;
+
+    questionsEl.appendChild(pEl);
   }
 }
