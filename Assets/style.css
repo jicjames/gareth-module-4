@@ -62,7 +62,7 @@
   padding-right: 2%;
   padding-top: 1%;
   padding-bottom: 1%;
-  /* visibility: hidden; */
+  display: none;
 }
 
 li {
@@ -77,8 +77,8 @@ li {
   margin: 3%;
   width: 25%;
   justify-content: center;
-  margin-left: auto;
-  margin-right: auto;
+  margin-left: 34%;
+  margin-right: 55%;
   margin-top: 3%;
   background-color: white;
 }
@@ -87,4 +87,9 @@ li {
   position: relative;
   font-weight: bold;
   font-size: large;
+}
+
+.answerResult {
+  margin-left: auto;
+  margin-right: auto;
 }

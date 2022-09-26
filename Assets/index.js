@@ -33,8 +33,7 @@ var questionBank = [
 ];
 var questionBankIndex = 0;
 var score = 0;
-var questionIndex = 0;
-var secondsLeft = 2;
+var secondsLeft = 76;
 var quizTimer = 0;
 var penalty = 10;
 var ulEl = document.createElement("ul");
@@ -46,15 +45,15 @@ startEL.addEventListener("click", function () {
       secondsLeft--;
       timerEL.textContent = "Time: " + secondsLeft;
 
-      if (secondsLeft === 0) {
+      if (secondsLeft <= 0) {
         clearInterval(quizTimer);
         complete();
         timerEL.textContent = "Time's up!";
       }
     }, 1000);
   }
-  //   document.getElementsByClassName("timer").style.visibility = visible;
-  renderQuiz();
+  timerEL.style.display = "block";
+  renderQuiz(questionBankIndex);
 });
 
 // Function to begin the quiz and renders the questions and answers
@@ -64,9 +63,9 @@ function renderQuiz(questionBankIndex) {
   ulEl.innerHTML = "";
 
   for (var i = 0; i < questionBank.length; i++) {
-    var renderQuestion = questionBank[i].question;
-    var renderChoices = questionBank[i].choices;
-    questionsEl.innerHTML = renderQuestion;
+    var renderQuestion = questionBank[questionBankIndex].question;
+    var renderChoices = questionBank[questionBankIndex].choices;
+    questionsEl.textContent = renderQuestion;
   }
 
   renderChoices.forEach(function (newChoice) {
@@ -82,6 +81,7 @@ function renderQuiz(questionBankIndex) {
 function validateAnswer(event) {
   var element = event.target;
 
+  //Returns message to validate the answers chosen to the user
   if (element.matches("li")) {
     var resultEl = document.createElement("div");
     resultEl.setAttribute("class", "answerResult");
@@ -94,13 +94,23 @@ function validateAnswer(event) {
       resultEl.textContent = "Wrong! The correct answer is:  " + questionBank[questionBankIndex].answer;
     }
   }
+  questionBankIndex++;
+
+  if (questionBankIndex >= questionBank.length) {
+    complete();
+    resultEl.textContent =
+      "End of quiz!" + " " + "You got  " + score + "/" + questionBank.length + " Correct!";
+  } else {
+    renderQuiz(questionBankIndex);
+  }
+  questionsEl.appendChild(resultEl);
 }
 
-//Triggers when the quiz is complete or when the timer hits zero.
+//Function to triggers when the quiz is complete or when the timer hits zero
 function complete() {
   questionsEl.innerHTML = "";
   timerEL.innerHTML = "";
-
+  //Message that triggers when the timer is at zero
   if (secondsLeft >= 0) {
     var pEl = document.createElement("p");
     clearInterval(quizTimer);
@@ -108,4 +118,7 @@ function complete() {
 
     questionsEl.appendChild(pEl);
   }
+
+  //Creating the form for scores
+  var 
 }
