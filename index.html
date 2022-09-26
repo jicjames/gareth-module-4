@@ -12,7 +12,7 @@
   </head>
   <body>
     <div class="container">
-      <div class="timer"></div>
+      <div class="timer hidden"></div>
       <div class="questions">
         <h1>Coding Quiz Challenge</h1>
         <p>
@@ -22,6 +22,24 @@
         <ul class="answers"></ul>
         <button class="startQuiz">Start Quiz</button>
       </div>
+    </div>
+
+
+    <div class="score-input-wrapper">
+      
+      <form>
+        <label for="someField">submit your high score!</label>
+        <input class="score-input" type="text" name="someField" id="">
+      </form>
+      <button class="submit-score">Submit</button>
+    </div>
+    <button class="view-scores">
+      View high scores
+    </button>
+    <div class="high-scores">
+      <ul class="scores-list">
+        <!-- scores will be rendered in here by JS -->
+      </ul>
     </div>
     <script src="./Assets/index.js"></script>
   </body>

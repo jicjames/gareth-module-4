@@ -1,6 +1,13 @@
 // Declaring Variables
 var containerEl = document.querySelector(".container");
 var timerEL = document.querySelector(".timer");
+const scoreInputWrapper = document.querySelector(".score-input-wrapper");
+const scoreInput = document.querySelector(".score-input");
+const scoreSubmitEl = document.querySelector(".submit-score");
+
+// initialize empty score data
+let scoresData = [];
+
 var questionsEl = document.querySelector(".questions");
 var startEL = document.querySelector(".startQuiz");
 var questionBank = [
@@ -52,7 +59,8 @@ startEL.addEventListener("click", function () {
       }
     }, 1000);
   }
-  timerEL.style.display = "block";
+  timerEL.classList.remove("hidden");
+  // can also use classList.toggle("hidden");
   renderQuiz(questionBankIndex);
 });
 
@@ -106,10 +114,87 @@ function validateAnswer(event) {
   questionsEl.appendChild(resultEl);
 }
 
+scoreSubmitEl.addEventListener("click", function(e){
+  console.log(e);
+
+  const name = scoreInput.value;
+  const newScore = score;
+
+  // create an object with initials and score,
+  // add it to our scoresData array,
+  // stringify, then save it to localstorage.
+  updateHighScores(name, newScore);
+
+  // render the high scores list
+  renderHighScores();
+});
+
+// WHEN THE "CLEAR HIGH SCORES" BUTTON IS CLICKED
+function clearHighScores() {
+  const newScores = JSON.stringify([]);
+  // update the Data
+  localStorage.setItem('highScores', newScores);
+
+  // update the UI
+  renderHighScores();
+}
+
+
+function getHighScores(){
+  // when the app loads, get data from high scores property (if it exists)
+
+  // using the initialized variable scoresData
+  const data =  localStorage.getItem('highScores'); // will either be null or a string.
+  if(data !== null) { // check if any data exists in local storage first. 
+    scoresData = JSON.parse(data);
+  }
+}
+
+// this function is called when the submit score button is clicked. 
+function updateHighScores(initials, score) {
+  // initials is a string
+  // score is a number
+
+  const newScoresObject = {
+    initials: initials, 
+    score: score,
+  };
+
+  // update local scores variable (in javascript)
+  scoresData.push(newScoresObject);
+
+  // update LOCAL STORAGE scores data 
+  // so that it will be saved for next time. 
+  const stringScoresData = JSON.stringify(scoresData);
+  localStorage.setItem("highScores", stringScoresData);
+
+}
+
+// render the high scores list when the submit button is clicked. 
+// (and after the updateHighScores function is called) 
+function renderHighScores(){
+  // scoresData should be an array of objects 
+  // shaped like:
+  // {
+  //   initials: "JC",
+  //   score: 3,
+  // }
+
+
+  // you will also need to handle how to show/hide the whole high score list here. 
+
+  scoresData.forEach(function(score){
+    // render the score UI 
+    // create LI elements and append them to the UL in the scores list. 
+  });
+}
+
 //Function to triggers when the quiz is complete or when the timer hits zero
 function complete() {
   questionsEl.innerHTML = "";
   timerEL.innerHTML = "";
+  timerEL.classList.add("hidden");
+  scoreInputWrapper.classList.add('visible');
   //Message that triggers when the timer is at zero
   if (secondsLeft >= 0) {
     var pEl = document.createElement("p");
@@ -119,6 +204,13 @@ function complete() {
     questionsEl.appendChild(pEl);
   }
 
-  //Creating the form for scores
-  var 
+}
+
+function resetQuiz() {
+  // show and/or hide all elements which have had their visibility changed. 
+  // e.g. timer, highscores, startbutton, etc. 
+
+  // re-initialize any variables to their original state or value. 
+  // e.g. questionBankIndex
+
 }
